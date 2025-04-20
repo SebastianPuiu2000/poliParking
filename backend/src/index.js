@@ -1,4 +1,5 @@
 const express = require("express");
+const { spawn } = require("child_process");
 const WebSocket = require("ws");
 const fs = require("fs");
 const path = require("path");
@@ -85,6 +86,31 @@ app.get("/up/:cameraId", (req, res) => {
   const cameraId = req.params.cameraId;
   sendCommandToESP(cameraId, "UP");
   res.send(`Capture command sent to ${cameraId}!`);
+});
+
+app.get("/image", (req, res) => {
+  const python = spawn("python3", ["./python/main.py"]);
+
+  let dataBuffer = "";
+
+  python.stdout.on("data", (data) => {
+    dataBuffer += data.toString();
+  });
+
+  python.stderr.on("data", (data) => {
+    console.error(`stderr: ${data}`);
+  });
+
+  python.on("close", (code) => {
+    try {
+      const result = JSON.parse(dataBuffer);
+      console.log("Received list from Python:", result); // e.g., [1, 0, 1, 1, 0]
+    } catch (err) {
+      console.error("Error parsing JSON:", err);
+    }
+  });
+
+  res.status(200).send(`Image generated!`);
 });
 
 app.listen(port, () => {
