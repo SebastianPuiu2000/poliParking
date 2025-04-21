@@ -1,9 +1,7 @@
 import cv2
 import pytesseract
-import sys
 import json
 import os
-import numpy as np
 
 # Get the absolute directory of the script
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
