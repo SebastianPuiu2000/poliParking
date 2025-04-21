@@ -74,7 +74,7 @@ cv2.imwrite(os.path.join(BASE_DIR, 'plate_with_country_cleaned.jpg'), roi_thresh
 
 # Remove country from image
 final_image = remove_country_section(roi_thresh)
-cv2.imwrite(os.path.join(BASE_DIR, 'plate_without_country.jpg'), roi_thresh)
+cv2.imwrite(os.path.join(BASE_DIR, 'plate_without_country.jpg'), final_image)
 
 # Use Tesseract OCR
 custom_config = r'--oem 3 --psm 8'  # PSM 8 = Treat image as a single word/block
