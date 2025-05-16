@@ -33,6 +33,18 @@ function LoginForm() {
           </div>
 
           <div className="space-y-2">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input
+              id="email-plate"
+              placeholder="example@gmail.com"
+              required
+              className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20"
+            />
+          </div>
+
+          <div className="space-y-2">
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </label>
@@ -91,23 +103,10 @@ function LoginForm() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-              />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                Remember me
-              </label>
-            </div>
-            <div className="text-sm">
+          <div className="flex text-sm items-center justify-center">
               <a href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500 hover:underline">
                 Forgot your password?
               </a>
-            </div>
           </div>
         </div>
 

@@ -21,6 +21,18 @@ module.exports = {
       background: '#F3F4F6', // Gray-100
     },
     extend: {
+      fontFamily: {
+        logo: ["Montserrat", "sans-serif"],
+        // You can add other custom fonts too
+        // display: ["Poppins", "sans-serif"],
+        // heading: ["Raleway", "sans-serif"],
+      },
+      backgroundImage: {
+        "logo-gradient": "linear-gradient(90deg, #1E40AF 0%, #3B82F6 100%)",
+      },
+      letterSpacing: {
+        logo: "0.05em",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -101,6 +113,18 @@ module.exports = {
           400: "#f87171",
           500: "#ef4444",
           600: "#dc2626",
+        },
+        green: {
+          50: "#f0fdf4",
+          100: "#dcfce7",
+          200: "#bbf7d0",
+          300: "#86efac",
+          400: "#4ade80",
+          500: "#22c55e", // This is the green-500 color used in the navbar
+          600: "#16a34a",
+          700: "#15803d",
+          800: "#166534",
+          900: "#14532d",
         },
 
       },
