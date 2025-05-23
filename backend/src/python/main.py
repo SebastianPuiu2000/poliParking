@@ -3,13 +3,14 @@ import pickle
 import cvzone
 import numpy as np
 import os
+os.environ["QT_QPA_PLATFORM"] = "xcb"
 import json
 
 # Get the absolute directory of the script
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Load files relative to the script
-input_image_file_path = os.path.join(BASE_DIR, 'parking.jpg')
+input_image_file_path = os.path.join(BASE_DIR, 'parking9.jpg')
 
 pos_file_path = os.path.join(BASE_DIR, 'CarParkPos.txt')
 
@@ -49,7 +50,6 @@ def checkParkingSpace(imgPro):
         cvzone.putTextRect(img, str(count), (x1+6, y1+16), scale=1,
                            thickness=2, offset=0, colorR=color)
 
-    cv2.imwrite(border_output_file_path, img)
     print(json.dumps(available_slots))
 
 
@@ -61,17 +61,25 @@ def checkParkingSpace(imgPro):
 img = cv2.imread(input_image_file_path)
 
 imgGray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+imgEqualized = cv2.equalizeHist(imgGray)
+# clahe = cv2.createCLAHE(clipLimit=1.5, tileGridSize=(8, 8))
+# imgClahe = clahe.apply(imgGray)
+
 imgBlur = cv2.GaussianBlur(imgGray, (3, 3), 1)
-imgThreshold = cv2.adaptiveThreshold(imgBlur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 25, 16)
+_, imgThreshold = cv2.threshold(imgBlur, 50, 255, cv2.THRESH_BINARY)
+
+# imgThreshold = cv2.adaptiveThreshold(imgBlur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 25, 16)
 imgMedian = cv2.medianBlur(imgThreshold, 5)
 kernel = np.ones((3, 3), np.uint8)
 imgDilate = cv2.dilate(imgMedian, kernel, iterations=1)
 
-cv2.imwrite(dilate_output_file_path, imgDilate)
 
 checkParkingSpace(imgDilate)
 
-# cv2.imshow("Image1", img)
-# cv2.imshow("Image", imgDilate)
-# cv2.imshow("ImageBlur", imgBlur)
-# cv2.imshow("ImageThres", imgMedian)
+cv2.imwrite(os.path.join(BASE_DIR,'1_gray.jpg'), imgGray)
+cv2.imwrite(os.path.join(BASE_DIR,'2_equalized.jpg'), imgEqualized)
+cv2.imwrite(os.path.join(BASE_DIR,'3_blur.jpg'), imgBlur)
+cv2.imwrite(os.path.join(BASE_DIR,'4_thresh.jpg'), imgThreshold)
+cv2.imwrite(os.path.join(BASE_DIR,'5_median.jpg'), imgMedian)
+cv2.imwrite(os.path.join(BASE_DIR,'6_dilate.jpg'), imgDilate)
+
